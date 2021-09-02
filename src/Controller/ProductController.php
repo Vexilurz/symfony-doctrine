@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\Product;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 class ProductController extends AbstractController
@@ -53,11 +54,9 @@ class ProductController extends AbstractController
     /**
      * @Route("/product/{id}", name="product_show")
      */
-    public function show(int $id): Response
+    public function show(int $id, ProductRepository $productRepository): Response
     {
-        $product = $this->getDoctrine()
-            ->getRepository(Product::class)
-            ->find($id);
+        $product = $productRepository->find($id);
 
         if (!$product) {
             throw $this->createNotFoundException(
