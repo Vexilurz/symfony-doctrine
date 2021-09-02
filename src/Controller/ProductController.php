@@ -80,12 +80,9 @@ class ProductController extends AbstractController
             );
         }
 
-        //TODO: output product array
-        return new Response();
-
         // or render a template
         // in the template, print things with {{ product.name }}
-        // return $this->render('product/show.html.twig', ['product' => $product]);
+        return $this->render('product/show.html.twig', ['products' => $product]);
     }
 
     /**

@@ -31,9 +31,9 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter('price', $price)
             ->orderBy('p.price', 'ASC');
 
-        if (!$includeUnavailableProducts) {
-            $qb->andWhere('p.available = TRUE');
-        }
+        // if (!$includeUnavailableProducts) {
+        //     $qb->andWhere('p.available = TRUE');
+        // }
 
         $query = $qb->getQuery();
 
