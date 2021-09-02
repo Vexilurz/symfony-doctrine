@@ -54,14 +54,10 @@ class ProductController extends AbstractController
     /**
      * @Route("/product/{id}", name="product_show")
      */
-    public function show(int $id, ProductRepository $productRepository): Response
+    public function show(Product $product): Response
     {
-        $product = $productRepository->find($id);
-
         if (!$product) {
-            throw $this->createNotFoundException(
-                'No product found for id ' . $id
-            );
+            throw $this->createNotFoundException('No product found');
         }
 
         return new Response('Check out this great product: ' . $product->getName());
