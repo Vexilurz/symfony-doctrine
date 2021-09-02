@@ -68,6 +68,27 @@ class ProductController extends AbstractController
     }
 
     /**
+     * @Route("/product/price_greater/{price}", name="product_show_price_greater")
+     */
+    public function show_price_greater(int $price, ProductRepository $productRepository): Response
+    {
+        $product = $productRepository->findAllGreaterThanPrice($price);
+
+        if (!$product) {
+            throw $this->createNotFoundException(
+                'No products found for price greater than ' . $price
+            );
+        }
+
+        //TODO: output product array
+        return new Response();
+
+        // or render a template
+        // in the template, print things with {{ product.name }}
+        // return $this->render('product/show.html.twig', ['product' => $product]);
+    }
+
+    /**
      * @Route("/product/edit/{id}")
      */
     public function update(int $id): Response
