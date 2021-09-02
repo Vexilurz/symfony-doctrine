@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Entity\Product;
@@ -24,7 +25,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/product/create", name="create_product")
      */
-    public function createProduct(): Response
+    public function createProduct(ValidatorInterface $validator): Response
     {
         // you can fetch the EntityManager via $this->getDoctrine()
         // or you can add an argument to the action: createProduct(EntityManagerInterface $entityManager)
@@ -32,8 +33,13 @@ class ProductController extends AbstractController
 
         $product = new Product();
         $product->setName('Keyboard');
-        $product->setPrice(1999);
+        $product->setPrice('1999');
         $product->setDescription('Ergonomic and stylish!');
+
+        $errors = $validator->validate($product);
+        if (count($errors) > 0) {
+            return new Response((string) $errors, 400);
+        }
 
         // tell Doctrine you want to (eventually) save the Product (no queries yet)
         $entityManager->persist($product);
